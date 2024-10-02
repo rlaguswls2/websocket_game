@@ -10,6 +10,6 @@ export const getStage = (uuid) => {
     return stages[uuid];
 };
 
-export const setStage = (uuid, id) => {
-    return stages[uuid].push({ id });
+export const setStage = (uuid, id, timestamp = Date.now()) => {
+    return stages[uuid].push({ id, timestamp });
 };

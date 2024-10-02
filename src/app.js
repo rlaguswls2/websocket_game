@@ -22,7 +22,6 @@ server.listen(PORT, async () => {
     //server가 시동이 된 다음 파일 읽음
     try {
         const assets = await loadGameAssets();
-        console.log(assets);
         console.log('Assets loaded successfully');
     } catch (error) {
         console.error('Failed to load game assets:', error);
