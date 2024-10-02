@@ -1,4 +1,4 @@
-import { CLIENT_VERSION } from '../../constants.js';
+import { CLIENT_VERSION } from '../constants.js';
 import { getGameAssets } from '../init/assets.js';
 import { getStage, setStage } from '../models/stage.model.js';
 import { removeUser } from '../models/user.model.js';
