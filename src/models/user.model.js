@@ -1,7 +1,7 @@
 const users = [];
 
 export const addUser = (user) => {
-    user.push(user);
+    users.push(user);
 };
 
 export const getUsers = () => {

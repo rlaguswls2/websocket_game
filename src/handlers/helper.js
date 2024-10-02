@@ -1,7 +1,8 @@
 import { CLIENT_VERSION } from '../constants.js';
 import { getGameAssets } from '../init/assets.js';
-import { getStage, setStage } from '../models/stage.model.js';
-import { removeUser } from '../models/user.model.js';
+import { getStage, setStage, createStage } from '../models/stage.model.js';
+import { removeUser, getUsers } from '../models/user.model.js';
+import handlerMappings from './handlerMapping.js';
 
 export const handleDisconnect = (socket) => {
     removeUser(socket.id);
@@ -13,6 +14,18 @@ export const handleDisconnect = (socket) => {
 export const handleConnection = (socket, uuid) => {
     console.log('New use connected!:', uuid, 'with socket ID:', socket.id);
     console.log('Current users:', getUsers());
+
+    // CLIENT_VERSION 검증
+    const clientVersion = socket.handshake.query.clientVersion;
+    // 클라이언트 버전 검증
+    if (!CLIENT_VERSION.includes(clientVersion)) {
+        console.log(`Connection rejected: Unsupported client version (${clientVersion})`);
+        socket.emit('response', { status: 'fail', message: 'Client version mismatch' });
+        socket.disconnect(); // 연결을 종료할 수도 있음
+        return;
+    }
+
+    createStage(uuid);
 
     // 본인의 소켓의 connection 이벤트에게 uuid를 보냄
     socket.emit('connection', { uuid });

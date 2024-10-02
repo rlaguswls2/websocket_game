@@ -1,5 +1,5 @@
 import { getStage, setStage } from '../models/stage.model.js';
-import { getGameAssets } from '../init/assets';
+import { getGameAssets } from '../init/assets.js';
 
 export const moveStageHandler = (userId, payload) => {
     // currentStage, targetStage

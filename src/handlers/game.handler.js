@@ -1,6 +1,13 @@
+import { getGameAssets } from '../init/assets.js';
+import { setStage, getStage, clearStage } from '../models/stage.model.js';
+
 export const gameStart = (uuid, payload) => {
     // 스테이지에 정보 넣어주기, 접속하자 마자 시작
     const { stages } = getGameAssets();
+
+    // stage 초기화
+    clearStage(uuid);
+
     // stages 배열에서 0번째 = 첫번째 스테이지
     setStage(uuid, stages.data[0].id, payload.timestamp);
     console.log('Stage:', getStage(uuid));
