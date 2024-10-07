@@ -5,6 +5,7 @@ import Score from './Score.js';
 import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
+import stageData from './assets/stage.json' with { type: 'json' };
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -43,6 +44,15 @@ const ITEM_CONFIG = [
     { width: 50 / 1.5, height: 50 / 1.5, id: 4, image: 'images/items/pokeball_cyan.png' },
 ];
 
+const ITEM_UNLOCK_CONFIG = [
+    { width: 50 / 1.5, height: 50 / 1.5, id: 1, image: 'images/items/pokeball_red.png' },
+    { width: 50 / 1.5, height: 50 / 1.5, id: 2, image: 'images/items/pokeball_yellow.png' },
+    { width: 50 / 1.5, height: 50 / 1.5, id: 3, image: 'images/items/pokeball_purple.png' },
+    { width: 50 / 1.5, height: 50 / 1.5, id: 4, image: 'images/items/pokeball_cyan.png' },
+];
+
+const STAGE_CONFIG = stageData.data;
+
 // 게임 요소들
 let player = null;
 let ground = null;
@@ -78,7 +88,7 @@ function createSprites() {
         scaleRatio,
     );
 
-    ground = new Ground(ctx, groundWidthInGame, groundHeightInGame, GROUND_SPEED, scaleRatio);
+    ground = new Ground(ctx, groundWidthInGame, groundHeightInGame, GROUND_SPEED, sca leRatio);
 
     const cactiImages = CACTI_CONFIG.map((cactus) => {
         const image = new Image();
@@ -103,9 +113,11 @@ function createSprites() {
         };
     });
 
-    itemController = new ItemController(ctx, itemImages, scaleRatio, GROUND_SPEED);
+    itemController = new ItemController(ctx, itemImages, scaleRatio, GROUND_SPEED); // item_unlock_config 추가해야함
 
-    score = new Score(ctx, scaleRatio);
+    score = new Score(ctx, scaleRatio, STAGE_CONFIG); // STAGE_DATA, ITEM_CONFIG, itemController
+
+    // setScoreInstance?
 }
 
 function getScaleRatio() {

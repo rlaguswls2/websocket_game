@@ -2,14 +2,11 @@ import { getStage, setStage } from '../models/stage.model.js';
 import { getGameAssets } from '../init/assets.js';
 
 export const moveStageHandler = (userId, payload) => {
-    // currentStage, targetStage
     let currentStages = getStage(userId);
-
     // 현재 스테이지가 없는 경우
     if (!currentStages.length) {
         return { status: 'fail', message: 'No stages found for user' };
     }
-
     // 동일한 스테이지로 이동을 요청하는 경우
     if (currentStage.id === payload.targetStage) {
         return { status: 'fail', message: 'Already at target stage' };
@@ -24,9 +21,10 @@ export const moveStageHandler = (userId, payload) => {
         return { status: 'fail', message: 'Current stage mismatch' };
     }
 
+    // 게임 에셋에서 스테이지 정보 가져오기
     const { stages } = getGameAssets();
 
-    // 넘어야 하는 스테이지 score 가져오기
+    // 현재 스테이지 정보를 Game Asset내의 stages에서 가져오기
     const currentStageData = stages.data.find((stage) => stage.id === payload.currentStage);
     if (!currentStageData) {
         return {
@@ -35,6 +33,7 @@ export const moveStageHandler = (userId, payload) => {
         };
     }
 
+    // 다음 스테이지 정보를 Game Asset내의 stages에서 가져오기
     const targetStageData = stages.data.find((stage) => stage.id === payload.targetStage);
     if (!targetStageData) {
         return {
@@ -45,7 +44,7 @@ export const moveStageHandler = (userId, payload) => {
 
     // 점수 검증
     const LATENCY_TOLERANCE = 5;
-    const serverTime = Data.now(); // 현재 타임 스탬프
+    const serverTime = Date.now(); // 현재 타임 스탬프
     const elapsedTime = (serverTime - currentStage.timestamp) / 1000; // ms
     const goalScore = targetStageData.score - currentStageData.score; // 최소 시간 = 필요 점수(점수는 초당 1점)
     const lateTime = goalScore + LATENCY_TOLERANCE; // 최대 시간 = 필요 점수 + 오차 5초

@@ -11,7 +11,6 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
-
 initSocket(server); // 소켓 서버 초기화
 
 app.get('/', (req, res) => {
