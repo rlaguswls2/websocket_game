@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const basePath = path.join(__dirname, '../../assets');
+const basePath = path.join(__dirname, '../../public/assets');
 let gameAssets = {};
 
 const readFileAsync = (filename) => {

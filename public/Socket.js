@@ -1,12 +1,15 @@
 import { CLIENT_VERSION } from './constant.js';
 
+let userId = '';
+let scoreInstance = null;
+
 const socket = io('http://localhost:3000', {
     query: {
         clientVersion: CLIENT_VERSION,
+        userId,
     },
 });
 
-let userId = null;
 socket.on('response', (data) => {
     console.log(data);
 });
@@ -25,4 +28,8 @@ const sendEvent = (handlerId, payload) => {
     });
 };
 
-export { sendEvent };
+const setScoreInstance = (instance) => {
+    scoreInstance = instance;
+};
+
+export { sendEvent, setScoreInstance };

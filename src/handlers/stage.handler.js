@@ -7,14 +7,15 @@ export const moveStageHandler = (userId, payload) => {
     if (!currentStages.length) {
         return { status: 'fail', message: 'No stages found for user' };
     }
-    // 동일한 스테이지로 이동을 요청하는 경우
-    if (currentStage.id === payload.targetStage) {
-        return { status: 'fail', message: 'Already at target stage' };
-    }
 
     // 오름차순 -> 가장 큰 스테이지 id를 확인 <- 유저의 현재 스테이지
     currentStages.sort((a, b) => a.id - b.id);
     const currentStage = currentStages[currentStages.length - 1];
+
+    // 동일한 스테이지로 이동을 요청하는 경우
+    if (currentStage.id === payload.targetStage) {
+        return { status: 'fail', message: 'Already at target stage' };
+    }
 
     // 현재 스테이지와 요청받은 스테이지가 같은지 검증
     if (currentStage.id !== payload.currentStage) {
